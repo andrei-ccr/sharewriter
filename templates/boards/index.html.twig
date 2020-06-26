@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{user}} - Profile{% endblock %}
+{% block title %}Boards{% endblock %}
 
 {% block body %}
 <style>
@@ -9,7 +9,9 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>{{ user }}</h1>
-    <p> This is a user profile </p>
+    <a href="{{path("app_logout")}}">Logout</a>
+    <h1>Board List</h1>
+
+    
 </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{user}} - Profile{% endblock %}
+{% block title %}Share Writer{% endblock %}
 
 {% block body %}
 <style>
@@ -9,7 +9,9 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>{{ user }}</h1>
-    <p> This is a user profile </p>
+    <h1>Share Writer</h1>
+    <p> Create or join writing boards and edit them in real time. </p>
+    <a href="{{path("app_login")}}">Login to Start</a>
+    <a href="{{path("app_register")}}">Create an Account</a>
 </div>
 {% endblock %}
