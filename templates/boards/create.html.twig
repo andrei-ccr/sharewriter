@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boards{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <a href="{{path('boards')}}">Boards list</a>
+    <form method="post">
+        <input type="text" name="name" placeholder="Board name">
+        <input type="checkbox" name="private" value="1"><label for="private">Don't make the board public</label>
+        <textarea name="content" placeholder="Content"></textarea>
+        <input type="submit" name="submit" value="Create">
+    </form>
+    
+</div>
+{% endblock %}

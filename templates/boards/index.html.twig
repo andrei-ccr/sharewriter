@@ -9,9 +9,15 @@
 </style>
 
 <div class="example-wrapper">
-    <a href="{{path("app_logout")}}">Logout</a>
+    <a href="{{path("app_logout")}}">Logout</a> | 
+    <a href="{{path("boards_new")}}">Create board</a>
+    
     <h1>Board List</h1>
 
-    
+    <ul>
+    {% for board in boards %}
+        <a href="{{ path('boards_display', {id: board.id}) }}"><li>{{board.name}}</li></a>
+    {% endfor %}
+    </ul>
 </div>
 {% endblock %}

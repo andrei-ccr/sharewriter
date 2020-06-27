@@ -27,6 +27,11 @@ class Board
      */
     private $content;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $private;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Board
     public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getPrivate(): ?bool
+    {
+        return $this->private;
+    }
+
+    public function setPrivate(bool $private): self
+    {
+        $this->private = $private;
 
         return $this;
     }
