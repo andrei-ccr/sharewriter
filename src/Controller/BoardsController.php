@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Board;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class BoardsController extends AbstractController
 {
@@ -28,6 +29,18 @@ class BoardsController extends AbstractController
         return $this->render('boards/index.html.twig', [
             'boards' => $boards,
         ]);
+    }
+
+    /**
+     * @Route("/boards/join", name="boards_join")
+     */
+    public function joinBoard(Request $request)
+    {
+        if($request->request->get("bid")) {
+            return $this->redirectToRoute("boards_display", array("id"=>$request->request->get("bid")));
+        }
+
+        return $this->render('boards/join.html.twig', []);
     }
 
     /**
@@ -67,14 +80,30 @@ class BoardsController extends AbstractController
     /**
      * @Route("/boards/{id}", name="boards_display", requirements={"id"="\d+"})
      */
-    public function showBoard(Request $request, $id)
+    public function showBoard(Request $request, UserInterface $user, $id)
     {
         $board = $this->getDoctrine()->getRepository(Board::class)->find($id);
         
+        $allowAccess = false;
+        if($board->getPrivate() === true) {
+            $boardAccesses = $board->getBoardAccesses();
+
+            foreach ($boardAccesses as $value) {
+                if(($value->getBoard()->getId() == $id) && ($value->getEmail()->getEmail() == $user->getId())) {
+                    $allowAccess = true;
+                }
+            }
+        } 
+        else {
+            $allowAccess = true;
+        }
+
         return $this->render('boards/board.html.twig', [
             'board_name' => $board->getName(),
             'board_content' => $board->getContent(),
+            'board_notAllowed' => !$allowAccess,
         ]);
+        
     }
 
     /**

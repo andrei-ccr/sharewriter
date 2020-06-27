@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BoardRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Board
      * @ORM\Column(type="boolean")
      */
     private $private;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BoardAccess::class, mappedBy="board", orphanRemoval=true)
+     */
+    private $boardAccesses;
+
+    public function __construct()
+    {
+        $this->boardAccesses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,37 @@ class Board
     public function setPrivate(bool $private): self
     {
         $this->private = $private;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BoardAccess[]
+     */
+    public function getBoardAccesses(): Collection
+    {
+        return $this->boardAccesses;
+    }
+
+    public function addBoardAccess(BoardAccess $boardAccess): self
+    {
+        if (!$this->boardAccesses->contains($boardAccess)) {
+            $this->boardAccesses[] = $boardAccess;
+            $boardAccess->setBoard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoardAccess(BoardAccess $boardAccess): self
+    {
+        if ($this->boardAccesses->contains($boardAccess)) {
+            $this->boardAccesses->removeElement($boardAccess);
+            // set the owning side to null (unless already changed)
+            if ($boardAccess->getBoard() === $this) {
+                $boardAccess->setBoard(null);
+            }
+        }
 
         return $this;
     }

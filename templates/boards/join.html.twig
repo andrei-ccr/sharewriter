@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boards{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <a href="{{path('boards')}}">Boards list</a>
+    <h1>Join Board</h1>
+    <form method="post">
+        <p>Enter the id of the board you want to join. You can only join it if the board is public or if you are allowed.</p>
+        <input type="text" name="bid" placeholder="Board id...">
+        <input type="submit" name="submit" value="Join">
+    </form>
+    
+</div>
+{% endblock %}

@@ -8,12 +8,19 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
+<a href="{{path('boards')}}">Boards list</a>
+{% if board_notAllowed == true %}
+    <p>You are not allowed to access this board</p>
+{% else %}
 <div class="example-wrapper">
-    <a href="{{path('boards')}}">Boards list</a>
+    
     <h4>Board</h4>
     <h1>{{board_name}}</h1>
 
     <textarea>{{board_content}}</textarea>
     
 </div>
+{% endif %}
+
+
 {% endblock %}
