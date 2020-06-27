@@ -43,9 +43,15 @@ class User implements UserInterface
      */
     private $boardAccesses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Board::class, mappedBy="owner")
+     */
+    private $boards;
+
     public function __construct()
     {
         $this->boardAccesses = new ArrayCollection();
+        $this->boards = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,6 +157,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($boardAccess->getEmail() === $this) {
                 $boardAccess->setEmail(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Board[]
+     */
+    public function getBoards(): Collection
+    {
+        return $this->boards;
+    }
+
+    public function addBoard(Board $board): self
+    {
+        if (!$this->boards->contains($board)) {
+            $this->boards[] = $board;
+            $board->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoard(Board $board): self
+    {
+        if ($this->boards->contains($board)) {
+            $this->boards->removeElement($board);
+            // set the owning side to null (unless already changed)
+            if ($board->getOwner() === $this) {
+                $board->setOwner(null);
             }
         }
 

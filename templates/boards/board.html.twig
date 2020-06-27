@@ -18,6 +18,37 @@
     <h1>{{board_name}}</h1>
 
     <textarea>{{board_content}}</textarea>
+
+    {% if board_isOwner== true %}
+    <h2>Board Settings</h2>
+        <input type="checkbox" name="setting_private"><label for="setting_private">Set private</label>
+        <input type="text" name="addAllowedUser" placeholder="Enter an email to add to allow list"><button id="btnAddAllow">Add</button>
+        <div>
+            <ul style="height:100px; overflow: auto;">
+            </ul>
+        </div>
+
+        <script>
+            $("#btnAddAllow").on("click", function() {
+                let newEmail = $("input[name=addAllowedUser]").val();
+                let urlStr = "{{path('boards_email_allow', {id: board_id, email: 'newEmail'})}}";
+                urlStr = urlStr.replace("newEmail", newEmail);
+
+                $.ajax({
+                    url: urlStr,
+                    method: "POST",
+                    cache: false,
+                })
+                .done(function(json) {
+                    alert(json.email);
+                })
+                .fail(function(xhr) {
+                    
+                });
+
+            });
+        </script>
+    {% endif %}
     
 </div>
 {% endif %}

@@ -8,8 +8,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Board;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Board;
+use App\Entity\BoardAccess;
+use App\Entity\User;
+
 
 class BoardsController extends AbstractController
 {
@@ -78,6 +81,31 @@ class BoardsController extends AbstractController
     }
 
     /**
+     * @Route("/boards/{id}/allow/{email}", name="boards_email_allow", requirements={"id"="\d+"}, methods={"POST"})
+     */
+    public function allowUserBoard(Request $request, $id, $email)
+    {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $boardAccess = new BoardAccess();
+            $boardAccess->setEmail($this->getDoctrine()->getRepository(User::class)->findOneBy(array("email" => $email)));
+            $boardAccess->setBoard($this->getDoctrine()->getRepository(Board::class)->find($id));
+
+            $entityManager->persist($boardAccess);
+
+            $entityManager->flush();
+
+
+            return $this->json(['email' => $boardAccess->getEmail()->getEmail()]);
+        
+
+        return $this->render('boards/create.html.twig', [
+            'controller_name' => 'BoardsController',
+        ]);
+    }
+
+    /**
      * @Route("/boards/{id}", name="boards_display", requirements={"id"="\d+"})
      */
     public function showBoard(Request $request, UserInterface $user, $id)
@@ -85,26 +113,41 @@ class BoardsController extends AbstractController
         $board = $this->getDoctrine()->getRepository(Board::class)->find($id);
         
         $allowAccess = false;
+        $isBoardOwner = false;
+
         if($board->getPrivate() === true) {
             $boardAccesses = $board->getBoardAccesses();
 
             foreach ($boardAccesses as $value) {
-                if(($value->getBoard()->getId() == $id) && ($value->getEmail()->getEmail() == $user->getId())) {
+                if(($value->getBoard()->getId() == $id) && ($value->getEmail()->getId() == $user->getId())) {
                     $allowAccess = true;
+                    break;
                 }
             }
+
         } 
         else {
             $allowAccess = true;
         }
 
+
+        if($board->getOwner()->getId() == $user->getId()) {
+
+            //Owner has access
+            $allowAccess = true;
+            $isBoardOwner = true;
+        }
+
         return $this->render('boards/board.html.twig', [
+            'board_id' => $board->getId(),
             'board_name' => $board->getName(),
             'board_content' => $board->getContent(),
             'board_notAllowed' => !$allowAccess,
+            'board_isOwner' => $isBoardOwner,
         ]);
         
     }
+
 
     /**
      * @Route("/", name="mainPage")
