@@ -17,7 +17,23 @@
     <h4>Board</h4>
     <h1>{{board_name}}</h1>
 
-    <textarea>{{board_content}}</textarea>
+    <textarea id="board_content">{{board_content}}</textarea>
+    <script>
+        $("#board_content").on("input", function() {
+            let content = $(this).val();
+            let urlStr = "{{path('boards_write', {id: board_id, userid: user_id, text: 'textareaval'})}}";
+            urlStr = urlStr.replace("textareaval", content);
+
+            $.ajax({
+                url: urlStr,
+                method: "POST",
+                cache: false
+            })
+            .done(function(json) {
+                
+            });
+        });
+    </script>
 
     {% if board_isOwner== true %}
     <h2>Board Settings</h2>
