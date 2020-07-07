@@ -1,8 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Register - ShareWriter{% endblock %}
 
+{% block stylesheets %}
+    <style>
+    body {
+        background-color:#f7f7f7;
+        text-align:center;
+    }
+
+    a {
+        color: #222;
+        font-weight: bold;
+    }
+
+    .wrapper {
+        margin: auto;
+        display: inline-block;
+        text-align: center;
+        background-color: #fff;
+        padding: 15px;
+        border: 1px solid #ddd;
+    }
+
+    p {
+        font-size: 14px;
+        color: #555;
+    }
+
+    input {
+        padding:10px;
+        margin:10px;
+        width: 300px;
+    }
+    input[type="checkbox"] {
+        width: initial;
+    }
+    </style>
+{% endblock %}
 {% block body %}
+<div class="wrapper">
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
@@ -15,7 +52,7 @@
             label: 'Password'
         }) }}
         {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn btn-fill">Register</button>
     {{ form_end(registrationForm) }}
+</div>
 {% endblock %}

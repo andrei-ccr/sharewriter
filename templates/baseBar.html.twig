@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <style>
+    .bar {
+        padding: 10px 0px;
+        display: flex;
+        justify-content: flex-end;
+        background-color: #fafafa;
+        box-shadow: 1px 1px 2px #ddd;
+    }
+    .bar * {
+        margin:0 10px;
+    }
+    </style>
+    <div class="bar">
+        <a href="{{path('boards')}}">Boards list</a>  &bull; 
+        <a href="{{path("boards_new")}}">Create board</a> &bull; 
+        <a href="{{path("boards_join")}}">Join board</a> &bull; 
+        <a href="{{path("app_logout")}}">Logout</a>
+    </div>
+
+    {% block bo %}
+
+    {% endblock %}
+{% endblock %}

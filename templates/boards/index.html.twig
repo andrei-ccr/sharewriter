@@ -1,23 +1,55 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseBar.html.twig' %}
 
-{% block title %}Boards{% endblock %}
+{% block title %}Boards - ShareWriter{% endblock %}
 
-{% block body %}
+{% block bo %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    ul li {
+        margin: 50px;
+    }
+
+    h1 {
+        font-size:20px;
+        color: #555;
+    }
+
+    .wrapper {
+        text-align: center;
+    }
+
+    .board-list a {
+        font-size:22px;
+    }
+
+    .board-author {
+        display: block;
+        font-size:14px;
+        margin:3px;
+    }
+
+    .board-date {
+        display:block;
+        font-size:12px;
+    }
 </style>
 
-<div class="example-wrapper">
-    <a href="{{path("app_logout")}}">Logout</a> | 
-    <a href="{{path("boards_new")}}">Create board</a>
-    <a href="{{path("boards_join")}}">Join board</a>
+
+<div class="wrapper">
     
     <h1>Board List</h1>
 
-    <ul>
+    <ul class="board-list">
     {% for board in boards %}
-        <a href="{{ path('boards_display', {id: board.id}) }}"><li>{{board.name}}</li></a>
+        <li>
+            <a href="{{ path('boards_display', {id: board.id}) }}">{{board.name}}</a>
+            <span class="board-author">by User</span>
+            <span class="board-date">Created on 07/07/2020 at 13:46</span>
+        </li>
     {% endfor %}
     </ul>
 </div>

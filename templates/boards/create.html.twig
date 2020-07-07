@@ -1,20 +1,55 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseBar.html.twig' %}
 
-{% block title %}Boards{% endblock %}
+{% block title %}Create Board - ShareWriter{% endblock %}
 
-{% block body %}
+{% block bo %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    body {
+        text-align: center;
+    }
+
+    h1 {
+        font-size:20px;
+        color:#222;
+    }
+    .wrapper {
+        margin: 10px auto;
+        display: inline-block;
+        text-align: center;
+        background-color: #fff;
+        padding: 15px;
+    }
+
+    form input[name="name"] {
+        display: block;
+        width:200px;
+        font-size:14px;
+        padding:5px;
+    }
+
+    form textarea {
+        display: block;
+        font-size:14px;
+        width:400px;
+        height:150px;
+        padding:5px;
+    }
+
+    form label {
+        font-size:12px;
+        color: #444;
+    }
+
 </style>
 
-<div class="example-wrapper">
-    <a href="{{path('boards')}}">Boards list</a>
+<div class="wrapper">
+    <h1>Create board</h1>
     <form method="post">
         <input type="text" name="name" placeholder="Board name">
+        <textarea name="content" placeholder="Initial content (optional)"></textarea>
         <input type="checkbox" name="private" value="1"><label for="private">Don't make the board public</label>
-        <textarea name="content" placeholder="Content"></textarea>
-        <input type="submit" name="submit" value="Create">
+        
+        <input type="submit" name="submit" class="btn-fill" value="Create board">
     </form>
     
 </div>
