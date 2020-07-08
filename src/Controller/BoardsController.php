@@ -37,6 +37,17 @@ class BoardsController extends AbstractController
     }
 
     /**
+     * @Route("/boards/{id}/fetch", name="boards_fetch", requirements={"id"="\d+"})
+     */
+    public function fetchBoard($id, Request $request) {
+        $board = $this->getDoctrine()->getRepository(Board::class)->find($id);
+
+        $boardContent = $board->getContent();
+
+        return $this->json(['content' => $boardContent, 'last_modification' => "08/07/2020 21:47"]);
+    }
+
+    /**
      * @Route("/boards/join", name="boards_join")
      */
     public function joinBoard(Request $request)

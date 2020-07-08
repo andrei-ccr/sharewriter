@@ -25,7 +25,22 @@
 
     <textarea id="board_content">{{board_content}}</textarea>
     <script>
+        let urlFetchStr = "{{path('boards_fetch', {id: board_id})}}";
+        let waitToInsert = false;
+        setInterval(function() { 
+            $.ajax({
+                url: urlFetchStr,
+                method: "POST",
+                cache: false
+            })
+            .done(function(json) {
+                if(waitToInsert != true)
+                    $("#board_content").val(json.content);
+            });
+        }, 1000);
+
         $("#board_content").on("input", function() {
+            waitToInsert = true;
             let content = $(this).val();
             let urlStr = "{{path('boards_write', {id: board_id, userid: user_id, text: 'textareaval'})}}";
             urlStr = urlStr.replace("textareaval", content);
@@ -36,7 +51,7 @@
                 cache: false
             })
             .done(function(json) {
-                
+                waitToInsert = false;
             });
         });
     </script>
