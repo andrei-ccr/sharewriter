@@ -1,0 +1,10 @@
+Login System (Identification by Email)
+
+Create writing board
+
+Make writing board public or accesible by email list
+Edits on the text board update in real time
+Board administrator can edit users read/write permission
+Every edit is stored in a history log visible to everyone (characters added/number of characters deleted, user and time of edit)
+
+Writing boards can be joined via the first page if public, or on the join page using a secret password
